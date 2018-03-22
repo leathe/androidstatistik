@@ -11,25 +11,47 @@ package del3;
  */
 public class StraightLine {
 
-    private float _x;
-    private float _m;
-    private float _k;
-    private float _y;
-    
-    public StraightLine(float[] a, float[] b) {
-        _x = (Statistics.getCorrelationCoefficient(a, b));
-        _m = Statistics.getAverage(b) - (_x*Statistics.getAverage(a));
+    private double _m;
+    private double _k;
+    private double _y;
+    public StraightLine(double[] a, double[] b) {
+        double _nomM = ((getSumOfArray(b)*getPowerOfArraySum(a))-(getSumOfArray(a) * getArrayMulti(a, b)));
+        double _denomM = a.length * getPowerOfArraySum(a) - Math.pow(getSumOfArray(a), 2);
+        _m = _nomM / _denomM;
+        
+        double _nomK = (a.length*getArrayMulti(a, b)) - (getSumOfArray(a)*getSumOfArray(b));
+        double _denomK = ( a.length*(getPowerOfArraySum(a)) - ( Math.pow(getSumOfArray((a)),2)));
+        _k = _nomK / _denomK;
     }
-
-    public float getY(float x) {
-        float m = _m;
-        float k = 10;
-        _y = (k * _x) + m;
-        return _y;
+    
+    private double getSumOfArray(double[] Array) {
+        double ArraySum = 0;
+        for (int i = 0; i < Array.length; i++) {
+            ArraySum += Array[i];
+        }
+        return ArraySum;
+    }
+    private double getArrayMulti(double[] Array, double[] Array2) {
+        double ArraySum = 0;
+        for (int i = 0; i < Array.length; i++) {
+            ArraySum += Array[i]*Array2[i];
+        }
+        return ArraySum;
+    }
+    private double getPowerOfArraySum(double[] Array) {
+        double ArrayPow = 0;
+        for (int i = 0; i < Array.length; i++) {
+            ArrayPow += Math.pow(Array[i], 2);
+        }
+        return ArrayPow;
+    }
+    
+    public double getY(double x) {
+        return _y = (_k * x)+ _m;
     }
 
     @Override
     public String toString() {
-        return "y="+_y+"x + "+_m;
+       return "y="+_k+"x "+_m;
     }
 }
