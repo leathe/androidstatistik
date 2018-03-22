@@ -7,11 +7,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
 {
-
     //Deklararer tre variabler av typen Die (en egen klass som definierar egenskaper för en tärning)
     Die d1; //Första tärningen
     Die d2; //Andra tärningen
@@ -28,16 +33,16 @@ public class MainActivity extends AppCompatActivity
     Button b1; //Första låsknappen
     Button b2; //Andra låsknappen
     Button b3; //Tredje låsknappen
-
+    DataPoint dp;
     Button bThrow;
-
+    GraphView graph;
     EditText nrOfTries;
     TextView textView_probability;
 
-    boolean gameIsActive;
     int clickCounter = 0;
     @Override
     //Denna metod anropas när appen startar
+
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -142,6 +147,7 @@ public class MainActivity extends AppCompatActivity
         setImage(iv1, d1);
         setImage(iv2, d2);
         setImage(iv3, d3);
+        textView_probability.setText("");
     }
 
     public void button_saveNumber(View v) {
@@ -190,7 +196,12 @@ public class MainActivity extends AppCompatActivity
         textView_probability.setText("Sannolikhet: " + prob * 100+"%");
 
         if (d1.getNr() == d2.getNr() && d1.getNr() == d3.getNr()) {
-            textView_probability.setText("Du lyckades! Alla tärningar visar " + d1.getNr()+"!");
+            textView_probability.setText("Du lyckades! Alla tärningar visar " + d1.getNr()+"!"+"\n"+
+            "Det tog "+ clickCounter +"/"+ Integer.parseInt(nrOfTries.getText().toString()) +" försök.");
+            bThrow.setEnabled(false);
+            b1.setEnabled(false);
+            b2.setEnabled(false);
+            b3.setEnabled(false);
         }
     }
 }
